@@ -1,0 +1,1 @@
+maturin build --release && python -m pip uninstall rust-arg-parser -y && python -m pip install target/wheels/rust_arg_parser-0.1.0-cp311-cp311-manylinux_2_28_x86_64.whl && python test_basic.py
