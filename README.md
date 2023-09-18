@@ -48,13 +48,47 @@ print(result)
 
 This will return a Python dictionary containing the parsed arguments and their types, like so:
 
-```python
+```json
 {
-    'verbose': True,
-    'count': 3,
-    'name': 'John'
+    "verbose": True,
+    "count": 3,
+    "name": "John"
 }
 ```
+
+It can also handle lists of things in brackets, with breaks on commas- like so:
+
+```python
+from rust_arg_parser import parse_command
+
+cmd = "--words [I love to eat cake, lemon cakes, peanut butter] "\
+      "--prompt I love to eat pancakes! also- I like to eat waffles! "\
+      "--nums [1,2,3,4,5,6,7, 8,9,10]" # can handle spaces in lists
+
+result = parse_command(cmd,set())
+```
+This would give the result:
+```json
+{
+    "prompt": "I love to eat pancakes! also- I like to eat waffles!",   
+    "words": ["I love to eat cake", "lemon cakes", "peanut butter"],    
+    "nums": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+}
+```
+
+If the list items were floats:
+```py
+cmd = "--nums [1.1, 2.2, 3.3, 4.3, 5.1, 6.1, 7.1, 8.6, 9, 10]"
+
+result = parse_command(cmd,set())
+```
+It would give you:
+```json
+{
+    "nums": [1.1, 2.2, 3.3, 4.3, 5.1, 6.1, 7.1, 8.6, 9.0, 10.0]
+}
+```
+
 
 ## API Documentation
 
